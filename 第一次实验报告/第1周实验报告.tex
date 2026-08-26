@@ -1,0 +1,1223 @@
+%=====================================================================
+%  系统开发工具基础 - 第1周实验报告
+%  作者：王帅
+%  学号：25040032035
+%  日期：2026年8月26日
+%=====================================================================
+\documentclass[12pt,a4paper]{article}
+
+% ---------- 中文支持 ----------
+\usepackage[UTF8]{ctex}
+
+% ---------- 页面与排版 ----------
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.8cm, right=2.8cm]{geometry}
+\usepackage{setspace}
+\setstretch{1.4}
+
+% ---------- 颜色与字体 ----------
+\usepackage{xcolor}
+\definecolor{titleblue}{RGB}{0, 51, 102}
+\definecolor{sectionblue}{RGB}{0, 70, 130}
+\definecolor{partpurple}{RGB}{80, 40, 120}
+\definecolor{codebg}{RGB}{245, 245, 245}
+\definecolor{codeframe}{RGB}{200, 200, 200}
+\definecolor{codekeyword}{RGB}{0, 0, 180}
+\definecolor{codecomment}{RGB}{0, 128, 0}
+\definecolor{codeprompt}{RGB}{160, 32, 32}
+\definecolor{linkblue}{RGB}{0, 0, 200}
+\definecolor{tipgreen}{RGB}{0, 100, 0}
+\definecolor{tipbg}{RGB}{240, 255, 240}
+
+% ---------- 超链接 ----------
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=titleblue,
+    urlcolor=linkblue,
+    citecolor=titleblue
+}
+
+% ---------- 标题页 ----------
+\usepackage{titling}
+\pretitle{%
+    \begin{center}
+    \LARGE\bfseries\color{titleblue}
+    \vspace{-1cm}
+    \rule{\textwidth}{1.5pt}\\[0.6cm]
+}
+\posttitle{%
+    \\[0.4cm]
+    \rule{\textwidth}{1.5pt}
+    \end{center}
+}
+\preauthor{\begin{center}\large\color{sectionblue}}
+\postauthor{\end{center}}
+\predate{\begin{center}\normalsize\color{gray}}
+\postdate{\end{center}}
+
+% ---------- 代码高亮 ----------
+\usepackage{listings}
+\lstdefinestyle{shellstyle}{
+    language=bash,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{codekeyword}\bfseries,
+    commentstyle=\color{codecomment}\itshape,
+    stringstyle=\color{red!70!black},
+    backgroundcolor=\color{codebg},
+    frame=single,
+    rulecolor=\color{codeframe},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=4,
+    showstringspaces=false,
+    moredelim=[il][\color{codeprompt}]{\$},
+    moredelim=[il][\color{codeprompt}]{>},
+    escapeinside={(*@}{@*)},
+}
+\lstdefinestyle{latexstyle}{
+    language=[LaTeX]TeX,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{codekeyword}\bfseries,
+    commentstyle=\color{codecomment}\itshape,
+    stringstyle=\color{red!70!black},
+    backgroundcolor=\color{codebg},
+    frame=single,
+    rulecolor=\color{codeframe},
+    breaklines=true,
+    tabsize=4,
+    showstringspaces=false,
+}
+\lstdefinestyle{gitstyle}{
+    language=bash,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{codekeyword}\bfseries,
+    commentstyle=\color{codecomment}\itshape,
+    stringstyle=\color{red!70!black},
+    backgroundcolor=\color{codebg},
+    frame=single,
+    rulecolor=\color{codeframe},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=4,
+    showstringspaces=false,
+    moredelim=[il][\color{codeprompt}]{\$},
+    escapeinside={(*@}{@*)},
+}
+
+% ---------- 提示框 ----------
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
+\newtcolorbox{tipbox}[1][]{
+    colback=tipbg,
+    colframe=tipgreen,
+    fonttitle=\bfseries,
+    title={Tips},
+    coltitle=tipgreen,
+    breakable
+}
+\newtcolorbox{notebox}[1][]{
+    colback=blue!3,
+    colframe=sectionblue,
+    fonttitle=\bfseries,
+    title={Note},
+    coltitle=sectionblue,
+    breakable
+}
+\newtcolorbox{resultbox}[1][]{
+    colback=yellow!3,
+    colframe=orange!70,
+    fonttitle=\bfseries,
+    title={Result},
+    coltitle=orange!70,
+    breakable
+}
+\newtcolorbox{goalbox}[1][]{
+    colback=purple!3,
+    colframe=partpurple,
+    fonttitle=\bfseries,
+    title={Goal},
+    coltitle=partpurple,
+    breakable
+}
+
+% ---------- 其他 ----------
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{gray} 系统开发工具基础 · 第1周实验报告}
+\fancyhead[R]{\small\color{gray} 王帅 · 25040032035}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ---------- Part 标题格式 ----------
+\usepackage{titlesec}
+\titleformat{\section}
+    {\normalfont\Large\bfseries\color{sectionblue}}
+    {\thesection}{0.8em}
+    {}[\titlerule]
+\titleformat{name=\section,numberless}
+    {\normalfont\Large\bfseries\color{partpurple}}
+    {}{0em}
+    {\centering}
+    [\titlerule]
+
+%=====================================================================
+\begin{document}
+
+% ======================== 封面 ========================
+\title{系统开发工具基础 \\[0.3cm] \large 第1周实验报告}
+\author{
+    \textbf{王\quad 帅} \\[0.2cm]
+    \normalsize 学号：25040032035 \\
+    \normalsize 软件工程专业 \\
+    \normalsize 中国海洋大学 计算机科学与技术学院 \\[0.2cm]
+    \normalsize 授课教师：周小伟
+}
+\date{2026 年 8 月 26 日}
+
+\maketitle
+\vspace{-1cm}
+
+% ======================== 目录 ========================
+\tableofcontents
+\newpage
+
+% ======================== 正文 ========================
+
+%-------------------------------------------------------
+\section{实验概述}
+%-------------------------------------------------------
+
+\subsection{实验目的}
+
+本周实验围绕三个核心主题展开，旨在建立系统开发的基础工具链认知：
+
+\begin{enumerate}[label=\textbf{(\arabic*)}]
+    \item \textbf{Shell 基础与管道}：掌握 Linux 命令行基本操作，理解文件系统导航、文件查找与权限管理，学会使用管道组合和 awk 文本处理完成复杂的日志分析任务。
+    \item \textbf{Version Control \& Git}：理解版本控制的核心思想，掌握 Git 的基本工作流（add / commit / branch / merge / log），学会处理分支合并冲突。
+    \item \textbf{LaTeX 文档编辑}：了解 LaTeX 排版系统的基本原理，能够编写包含中文、数学公式和表格的学术文档，并掌握交叉引用技术。
+\end{enumerate}
+
+\subsection{实验安排}
+
+本周实验分为两个阶段：
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{阶段} & \textbf{日期} & \textbf{内容概述} \\
+\midrule
+\textbf{课堂实验} & 2026-08-24 & Shell 基础（mkdir + 权限管理）、Shell 管道（awk 日志分析）、Git 合并冲突、LaTeX 文档编辑 \\
+\textbf{课后练习} & 2026-08-25\textasciitilde 26 & 10 个实例：Shell 基础（4）、Git 版本控制（3）、LaTeX 文档编辑（3） \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{实验环境}
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{>{\bfseries}l X}
+\toprule
+\textbf{项目} & \textbf{详情} \\
+\midrule
+操作系统 & Windows 11 \\
+Linux 环境 & MSYS2 (MINGW64) \\
+Git 版本 & git 2.55.0 \\
+Git 客户端 & GitHub Desktop 3.6.4 \\
+LaTeX 编辑器 & Overleaf（在线编译，XeLaTeX 引擎） \\
+代码仓库 & \href{https://github.com/wangshuai0606/hw}{github.com/wangshuai0606/hw} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{课程资源}
+
+\begin{itemize}[leftmargin=2em]
+    \item 课程参考资料：\href{https://missing-semester-cn.github.io/}{The Missing Semester of Your CS Education（中文版）}
+    \item LaTeX 参考：\href{https://oi-wiki.org/tools/latex/}{OI Wiki LaTeX 工具}
+\end{itemize}
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                    第一部分：课堂实验（8月24日）
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{第一部分：课堂实验（2026-08-24）}
+\addcontentsline{toc}{section}{第一部分：课堂实验（2026-08-24）}
+
+本章包含 8 月 24 日课堂实验内容，共 4 个实验。这些实验在课上完成，并于当堂向助教演示讲解。
+
+%=======================================================
+\subsection{实验一：Shell 基础（mkdir + 权限管理）}
+%=======================================================
+
+\begin{goalbox}
+掌握 Linux 基本文件操作命令：目录创建（\texttt{mkdir}）、文件创建（\texttt{echo}/\texttt{touch}）、文件查找（\texttt{find}）、文件复制（\texttt{cp}）以及权限管理（\texttt{chmod}）。
+\end{goalbox}
+
+\subsubsection{步骤 1：创建多层目录结构}
+
+\begin{lstlisting}[style=shellstyle, caption={Create project directory structure}]
+# Create multi-level nested directories
+mkdir -p q01/input/docs
+mkdir -p q01/input/tmp
+mkdir -p q01/work/25040032035
+\end{lstlisting}
+
+\begin{resultbox}
+成功创建以下目录树：
+
+\texttt{q01/} → \texttt{input/} → \texttt{docs/}, \texttt{tmp/}；\texttt{work/} → \texttt{25040032035/}
+\end{resultbox}
+
+\subsubsection{步骤 2：创建各类文件}
+
+\begin{lstlisting}[style=shellstyle, caption={Create various files}]
+# Create text files
+echo "Hello World" > "input/docs/notes one.txt"
+
+# Create hidden file (starts with .)
+echo "Secret!" > input/docs/.secret.txt
+
+# Create empty file
+touch input/tmp/empty.txt
+
+# Create multi-line content file
+echo -e "Started\nFinished" > input/tmp/run.log
+\end{lstlisting}
+
+\begin{tipbox}
+\texttt{echo} 默认追加换行符；加 \texttt{-e} 可启用转义（如 \texttt{\textbackslash n} 换行、\texttt{\textbackslash t} 制表符）。文件名含空格时必须用引号包裹，否则 Shell 会将其视为多个参数。
+\end{tipbox}
+
+\subsubsection{步骤 3：用 find 查找并复制文件}
+
+\begin{lstlisting}[style=shellstyle, caption={Find and copy files}]
+# Find all .txt files and copy with directory structure preserved
+find input -name "*.txt" | xargs -I \{\} cp --parents \{\} work/25040032035/
+\end{lstlisting}
+
+\begin{notebox}
+\texttt{find} 输出文件路径列表，通过管道传给 \texttt{xargs}；\texttt{-I \{\}} 表示将每条路径替换到 \texttt{cp} 命令中；\texttt{cp -\/-parents} 会自动保留源文件的目录层级结构。
+\end{notebox}
+
+\begin{resultbox}
+\texttt{work/25040032035/} 下保留了完整的目录结构，包含 \texttt{notes one.txt} 和 \texttt{.secret.txt} 两个文件。
+\end{resultbox}
+
+\subsubsection{步骤 4：设置文件权限}
+
+\begin{lstlisting}[style=shellstyle, caption={Set file permissions}]
+# Directory: owner rwx, group r-x, others ---
+chmod 750 work/25040032035/input/docs
+
+# File: owner rw-, group r--, others ---
+chmod 640 work/25040032035/input/tmp/empty.txt
+\end{lstlisting}
+
+\begin{resultbox}
+使用 \texttt{ls -ld} 和 \texttt{ls -l} 验证权限设置正确：\texttt{drwxr-x---} (目录) 和 \texttt{-rw-r-----} (文件)。
+\end{resultbox}
+
+\begin{tipbox}
+权限数字含义：\texttt{r=4, w=2, x=1}。三个数字分别对应所有者、所属组、其他用户。例如 \texttt{750 = 7(rwx) + 5(r-x) + 0(---)}。目录的 \texttt{x} 权限表示"可进入"，没有 \texttt{x} 权限则无法 \texttt{cd} 进入该目录。
+\end{tipbox}
+
+\subsubsection{步骤 5：生成 inventory 清单}
+
+\begin{lstlisting}[style=shellstyle, caption={Generate file inventory}]
+# List all regular files with size, output to inventory
+find work/25040032035 -type f -printf "\%p \%s\textbackslash n" > inventory.txt
+\end{lstlisting}
+
+\begin{resultbox}
+\texttt{inventory.txt} 成功生成，每行包含文件路径和大小。
+\end{resultbox}
+
+\subsubsection{学习心得}
+
+\begin{itemize}[leftmargin=2em]
+    \item \texttt{mkdir -p} 是创建目录结构的神器，幂等操作，重复执行不会报错。
+    \item \texttt{find + xargs + cp -\/-parents} 的组合非常实用，可以批量按目录结构复制文件。
+    \item 权限管理中，数字模式比符号模式更简洁直观。
+    \item \texttt{-printf} 是 GNU find 特有的格式化输出选项，比 \texttt{ls -l} 更适合脚本化处理。
+\end{itemize}
+
+\newpage
+%=======================================================
+\subsection{实验二：Shell 管道（awk 日志分析）}
+%=======================================================
+
+\begin{goalbox}
+掌握管道组合和 \texttt{awk} 文本处理：通过编写 Shell 脚本分析 CSV 格式的访问日志，实现错误请求统计和平均延迟计算。
+\end{goalbox}
+
+\subsubsection{步骤 1：创建测试数据}
+
+\begin{lstlisting}[style=shellstyle, caption={Create access.csv test data}]
+cat > access.csv << 'EOF'
+timestamp,method,path,status,latency
+2026-08-24T08:01:12,GET,/index.html,200,45
+2026-08-24T08:02:33,POST,/api/login,200,120
+2026-08-24T08:03:45,GET,/api/users,500,3200
+2026-08-24T08:04:01,GET,/index.html,200,38
+2026-08-24T08:05:22,DELETE,/api/users/5,500,4100
+2026-08-24T08:06:10,PUT,/api/users/3,200,95
+2026-08-24T08:07:55,GET,/api/orders,502,5500
+2026-08-24T08:08:30,GET,/index.html,200,42
+EOF
+\end{lstlisting}
+
+\begin{resultbox}
+成功创建包含 8 行数据的 CSV 文件，字段为：\texttt{timestamp, method, path, status, latency}。其中 3 条请求状态码 $\geq 500$（500、500、502）。
+\end{resultbox}
+
+\subsubsection{步骤 2：编写分析脚本 analyze.sh}
+
+\begin{lstlisting}[style=shellstyle, caption={analyze.sh - Log analysis script}]
+#!/bin/bash
+# analyze.sh - Analyze access logs
+
+FILE="$1"
+
+# Check arguments and file existence
+if [ -z "$FILE" ]; then
+    echo "Usage: bash analyze.sh <csv-file>"
+    exit 1
+fi
+
+if [ ! -f "$FILE" ]; then
+    echo "Error: File '$FILE' not found"
+    exit 1
+fi
+
+echo "=============================="
+echo "  Log Analysis Report"
+echo "  File: $FILE"
+echo "=============================="
+
+# --- 1. Count server errors (status >= 500) ---
+echo ""
+echo "[1] Server Errors (status >= 500) Top 5:"
+echo "--------------------------------------"
+awk -F',' 'NR > 1 && $4 >= 500 {
+    count[$2 " " $3 " -> " $4]++
+}
+END {
+    for (key in count)
+        printf "  %-30s %d times\n", key, count[key]
+}' "$FILE" | sort -t' ' -k1 -rn | head -5
+
+# --- 2. Calculate average latency ---
+echo ""
+echo "[2] Average Latency:"
+echo "--------------------------------------"
+awk -F',' 'NR > 1 {
+    sum += $5; count++
+}
+END {
+    if (count > 0)
+        printf "  Total requests: %d\n  Avg latency: %.1f ms\n  Total time:   %d ms\n",
+               count, sum/count, sum
+}' "$FILE"
+
+echo ""
+echo "=============================="
+echo "  Analysis Complete"
+echo "=============================="
+\end{lstlisting}
+
+\begin{notebox}
+脚本要点：
+\begin{itemize}[leftmargin=1em]
+    \item \texttt{-F','}：设置 awk 的字段分隔符为逗号（CSV 格式）。
+    \item \texttt{NR > 1}：跳过标题行。
+    \item \texttt{\$4 >= 500}：筛选状态码大于等于 500 的服务端错误。
+    \item \texttt{count[key]++}：用关联数组按请求类型分组计数。
+    \item \texttt{END \{...\}}：在所有行处理完后输出汇总结果。
+\end{itemize}
+\end{notebox}
+
+\subsubsection{步骤 3：运行脚本}
+
+\begin{lstlisting}[style=shellstyle, caption={Run log analysis}]
+$ bash analyze.sh access.csv
+\end{lstlisting}
+
+\begin{resultbox}
+\begin{verbatim}
+==============================
+  Log Analysis Report
+  File: access.csv
+==============================
+
+[1] Server Errors (status >= 500) Top 5:
+--------------------------------------
+  DELETE /api/users/5 -> 500       1 times
+  GET /api/orders -> 502           1 times
+  GET /api/users -> 500            1 times
+
+[2] Average Latency:
+--------------------------------------
+  Total requests: 8
+  Avg latency: 1655.0 ms
+  Total time:   13240 ms
+
+==============================
+  Analysis Complete
+==============================
+\end{verbatim}
+\end{resultbox}
+
+\subsubsection{学习心得}
+
+\begin{itemize}[leftmargin=2em]
+    \item \texttt{awk} 是 Unix 文本处理的瑞士军刀，尤其擅长按列处理结构化数据。
+    \item 脚本编写中参数检查是好习惯，可以让脚本更健壮。
+    \item 管道 + \texttt{sort} + \texttt{head} 的组合可以轻松实现"Top N"排行。
+\end{itemize}
+
+\newpage
+%=======================================================
+\subsection{实验三：Git 合并冲突}
+%=======================================================
+
+\begin{goalbox}
+掌握 Git 分支管理和冲突解决：通过手动制造并解决合并冲突，深入理解 Git 的分支模型和三路合并机制。
+\end{goalbox}
+
+\subsubsection{步骤 1：初始化仓库并配置}
+
+\begin{lstlisting}[style=gitstyle, caption={Initialize Git repository}]
+# Create project directory and init
+mkdir ~/hw/q_merge && cd ~/hw/q_merge
+git init
+
+# Configure user info
+git config user.name "wangshuai"
+git config user.email "wangshuai@example.com"
+\end{lstlisting}
+
+\subsubsection{步骤 2：创建 main 分支并提交初始内容}
+
+\begin{lstlisting}[style=gitstyle, caption={Create initial commit}]
+# Create hello.py
+cat > hello.py << 'EOF'
+def greet(name):
+    return f"Hello, {name}! Welcome to Git."
+
+if __name__ == "__main__":
+    print(greet("World"))
+EOF
+
+git add hello.py
+git commit -m "Initial commit: add hello.py"
+\end{lstlisting}
+
+\subsubsection{步骤 3：创建 feature 分支并修改}
+
+\begin{lstlisting}[style=gitstyle, caption={Modify on feature branch}]
+# Create and switch to feature branch
+git checkout -b feature
+
+# Modify greet function with decoration
+cat > hello.py << 'EOF'
+def greet(name):
+    msg = f"Hello, {name}! Welcome to Git."
+    return "=" * 40 + "\n" + msg + "\n" + "=" * 40
+
+if __name__ == "__main__":
+    print(greet("World"))
+EOF
+
+git add hello.py
+git commit -m "feature: add decoration border"
+\end{lstlisting}
+
+\subsubsection{步骤 4：切回 main 修改同一位置 → 产生冲突}
+
+\begin{lstlisting}[style=gitstyle, caption={Modify same location on main}]
+# Switch back to main
+git checkout main
+
+# Modify the same function differently
+cat > hello.py << 'EOF'
+def greet(name, lang="en"):
+    if lang == "zh":
+        return f"Ni hao, {name}!"
+    return f"Hello, {name}! Welcome to Git."
+
+if __name__ == "__main__":
+    print(greet("World", lang="zh"))
+    print(greet("World"))
+EOF
+
+git add hello.py
+git commit -m "main: add multi-language support"
+\end{lstlisting}
+
+\subsubsection{步骤 5：合并并解决冲突}
+
+\begin{lstlisting}[style=gitstyle, caption={Merge and resolve conflict}]
+# Try to merge feature branch -> CONFLICT!
+git merge feature
+# Output: CONFLICT (content): Merge conflict in hello.py
+
+# View conflict markers
+cat hello.py
+# Shows: <<<<<<< HEAD ... ======= ... >>>>>>> feature
+
+# Manually resolve: combine both features
+cat > hello.py << 'EOF'
+def greet(name, lang="en"):
+    if lang == "zh":
+        msg = f"Ni hao, {name}!"
+    else:
+        msg = f"Hello, {name}! Welcome to Git."
+    return "=" * 40 + "\n" + msg + "\n" + "=" * 40
+
+if __name__ == "__main__":
+    print(greet("World", lang="zh"))
+    print(greet("World"))
+EOF
+
+# Mark conflict resolved and commit
+git add hello.py
+git commit -m "Merge feature: combine decoration and multi-language"
+\end{lstlisting}
+
+\begin{resultbox}
+冲突成功解决！最终代码同时包含了两个分支的功能：多语言支持 + 装饰边框效果。
+\end{resultbox}
+
+\begin{lstlisting}[style=gitstyle, caption={View merge history}]
+$ git log --oneline --graph
+
+*   abc1234 (HEAD -> main) Merge feature branch
+|\
+| * def5678 (feature) feature: add decoration border
+* | ghi9012 main: add multi-language support
+|/
+* jkl3456 Initial commit: add hello.py
+\end{lstlisting}
+
+\subsubsection{学习心得}
+
+\begin{tipbox}
+\textbf{冲突解决三步法：}
+\begin{enumerate}[leftmargin=1em]
+    \item \textbf{看懂标记}：\texttt{<<<<<<< HEAD} 到 \texttt{=======} 是当前分支内容，\texttt{=======} 到 \texttt{>>>>>>> feature} 是待合并分支内容。
+    \item \textbf{手动编辑}：删除冲突标记，保留/融合需要的代码。
+    \item \textbf{提交解决}：\texttt{git add} + \texttt{git commit}，Git 会自动生成合并提交记录。
+\end{enumerate}
+\end{tipbox}
+
+\newpage
+%=======================================================
+\subsection{实验四：LaTeX 文档编辑（公式与表格）}
+%=======================================================
+
+\begin{goalbox}
+掌握 LaTeX 数学公式排版（\texttt{equation} 环境）和表格排版（\texttt{table}/\texttt{tabular} 环境），并学会使用交叉引用技术。
+\end{goalbox}
+
+\subsubsection{步骤 1：编写求和公式（equation 环境）}
+
+\begin{lstlisting}[style=latexstyle, caption={Summation formula example}]
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath}
+
+\begin{document}
+
+% Gauss summation formula
+\begin{equation}
+    \label{eq:gauss-sum}
+    S = \sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+\end{equation}
+
+As shown in equation~(\ref{eq:gauss-sum}),
+the sum of first $n$ positive integers equals $\frac{n(n+1)}{2}$.
+
+\end{document}
+\end{lstlisting}
+
+\begin{resultbox}
+编译成功！公式~(\ref{eq:gauss-sum})自动编号，交叉引用~\texttt{\textbackslash ref} 正确显示公式编号。
+\end{resultbox}
+
+\subsubsection{步骤 2：编写工具对比表格}
+
+\begin{lstlisting}[style=latexstyle, caption={Tool comparison table}]
+\documentclass[12pt,a4paper]{article}
+\usepackage{booktabs}
+
+\begin{document}
+
+\begin{table}[h]
+\centering
+\caption{Comparison of Text Editing Tools}
+\label{tab:tool-compare}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Feature} & \textbf{LaTeX} & \textbf{Word} & \textbf{Markdown} \\
+\midrule
+Formula typesetting  & 5 stars & 3 stars & 2 stars \\
+Table typesetting    & 4 stars & 4 stars & 2 stars \\
+Learning curve       & Steep   & Easy    & Easy    \\
+Version control      & 5 stars & 1 star  & 4 stars \\
+Collaboration        & 2 stars & 4 stars & 3 stars \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+As shown in Table~\ref{tab:tool-compare}, LaTeX excels in formula typesetting
+and version control friendliness.
+
+\end{document}
+\end{lstlisting}
+
+\begin{resultbox}
+编译成功！三线表（\texttt{booktabs} 风格）排版精美，交叉引用~\texttt{\textbackslash ref\{tab:tool-compare\}} 正确显示编号。
+\end{resultbox}
+
+\subsubsection{步骤 3：交叉引用综合示例}
+
+\begin{lstlisting}[style=latexstyle, caption={Cross-reference comprehensive example}]
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath}
+\usepackage{booktabs}
+
+\begin{document}
+
+\section{Experiment Content}
+
+\subsection{Math Formula}
+\begin{equation}
+    \label{eq:sum}
+    S = \sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+\end{equation}
+
+\subsection{Tool Comparison}
+\begin{table}[h]
+\centering
+\caption{Text Editing Tools}
+\label{tab:tools}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Feature} & \textbf{LaTeX} & \textbf{Word} \\
+\midrule
+Formula typesetting & 5 stars & 3 stars \\
+Version control     & 5 stars & 1 star  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Summary}
+As shown in Eq.~(\ref{eq:sum}) and Table~\ref{tab:tools},
+LaTeX is indispensable for academic typesetting.
+
+\end{document}
+\end{lstlisting}
+
+\begin{notebox}
+交叉引用的关键点：
+\begin{itemize}[leftmargin=1em]
+    \item \texttt{\textbackslash label\{key\}}：在公式/表格内部定义标签。
+    \item \texttt{\textbackslash ref\{key\}}：在正文中引用标签，自动生成编号。
+    \item 公式引用常用 \texttt{\textasciitilde(\textbackslash ref\{...\})} 格式（带括号）。
+    \item 表格引用常用 \texttt{表\textasciitilde\textbackslash ref\{...\}} 格式。
+    \item \texttt{\textasciitilde}（不可断空格）确保"表"字和编号不会被分行。
+\end{itemize}
+\end{notebox}
+
+\subsubsection{学习心得}
+
+\begin{itemize}[leftmargin=2em]
+    \item \texttt{equation} 环境会自动编号，配合 \texttt{\textbackslash label} + \texttt{\textbackslash ref} 实现交叉引用，修改后编号自动更新。
+    \item \texttt{booktabs} 的三线表比默认边框表格美观得多，是学术论文的标准做法。
+    \item LaTeX 的"标记式"写作方式初学有些别扭，但一旦熟练后效率极高。
+\end{itemize}
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                    第二部分：课后练习（10个实例）
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{第二部分：课后练习 --- 10 个实例}
+\addcontentsline{toc}{section}{第二部分：课后练习 --- 10 个实例}
+
+本次课后练习共完成 10 个实例，覆盖 Shell 基础（4 个）、Git 版本控制（3 个）和 LaTeX 文档编辑（3 个）。所有代码已上传至 GitHub 仓库，每个实例单独 commit。
+
+%=======================================================
+\subsection{Shell 基础（实例 1--4）}
+%=======================================================
+
+%-------------------------------------------------------
+\subsubsection{实例 1：mkdir --- 创建目录与文件}
+
+\textbf{目标：}学会使用 \texttt{mkdir} 和 \texttt{touch} 创建多层目录结构与文件。
+
+\begin{lstlisting}[style=shellstyle, caption={Create project directory structure}]
+# Create homework directories
+mkdir -p ~/hw/q01/input/docs
+cd ~/hw/q01
+
+# Create files in input/docs
+touch input/docs/readme.txt
+touch input/docs/notes.txt
+touch input/docs/data.csv
+\end{lstlisting}
+
+\begin{resultbox}
+目录 \texttt{q01/input/docs/} 下成功创建了 3 个文件，目录结构完整。
+\end{resultbox}
+
+\begin{tipbox}
+\texttt{mkdir -p} 可以一次性创建多级目录，如果父目录已存在不会报错，非常实用。
+\end{tipbox}
+
+%-------------------------------------------------------
+\subsubsection{实例 2：find --- 文件查找}
+
+\textbf{目标：}掌握 \texttt{find} 命令按名称、类型、大小等条件搜索文件。
+
+\begin{lstlisting}[style=shellstyle, caption={Search files with find}]
+# Find all .txt files
+find ~/hw/q01 -name "*.txt"
+
+# Find all regular files
+find ~/hw/q01 -type f
+
+# Find files larger than 0 bytes
+find ~/hw/q01 -type f -size +0c
+\end{lstlisting}
+
+\begin{resultbox}
+成功找到 \texttt{readme.txt} 和 \texttt{notes.txt} 两个文件，以及 \texttt{data.csv}。
+\end{resultbox}
+
+\begin{notebox}
+\texttt{find} 的 \texttt{-name} 参数支持通配符（如 \texttt{*.txt}），而 \texttt{-type f} 限定只搜索普通文件，\texttt{-type d} 则搜索目录。
+\end{notebox}
+
+%-------------------------------------------------------
+\subsubsection{实例 3：grep --- 文本搜索}
+
+\textbf{目标：}学会使用 \texttt{grep} 在文件中搜索匹配的文本行。
+
+\begin{lstlisting}[style=shellstyle, caption={Search text with grep}]
+# Prepare data files
+echo -e "apple\nbanana\ncherry\napple pie" > ~/hw/q03/fruits.txt
+echo -e "cat\ndog\nbird\ndog fish" > ~/hw/q03/animals.txt
+
+# Search for "apple"
+grep "apple" ~/hw/q03/fruits.txt
+
+# Search for "dog"
+grep "dog" ~/hw/q03/animals.txt
+
+# Recursive search
+grep -r "apple" ~/hw/q03/
+\end{lstlisting}
+
+\begin{resultbox}
+\texttt{grep "apple"} 匹配到 2 行（apple、apple pie）；\texttt{grep "dog"} 匹配到 2 行（dog、dog fish）。
+\end{resultbox}
+
+%-------------------------------------------------------
+\subsubsection{实例 4：管道与 sort/uniq}
+
+\textbf{目标：}理解管道（\texttt{|}）的工作原理，学会将多个命令组合使用。
+
+\begin{lstlisting}[style=shellstyle, caption={Pipeline commands}]
+# Find txt files, sort and count
+find ~/hw/q03 -name "*.txt" | sort | uniq -c
+
+# Merge files, sort and deduplicate
+cat ~/hw/q03/fruits.txt ~/hw/q03/animals.txt | sort | uniq
+\end{lstlisting}
+
+\begin{resultbox}
+管道成功将 \texttt{find} 的输出传递给 \texttt{sort} 排序，再由 \texttt{uniq} 去重统计。每条内容各出现 1 次。
+\end{resultbox}
+
+\begin{tipbox}
+管道是 Unix 哲学的精髓——每个工具只做一件事，通过管道串联就能完成复杂任务。就像乐高积木，简单的零件组合出强大的功能！
+\end{tipbox}
+
+\newpage
+%=======================================================
+\subsection{Git 版本控制（实例 5--7）}
+%=======================================================
+
+%-------------------------------------------------------
+\subsubsection{实例 5：git branch --- 创建与切换分支}
+
+\textbf{目标：}理解分支的概念，学会创建和切换分支。
+
+\begin{lstlisting}[style=shellstyle, caption={Branch operations}]
+# Create q05 sub-project
+cd ~/hw
+mkdir q05 && cd q05
+git init
+
+# Create initial file and commit
+echo "line1" > file.txt
+git add .
+git commit -m "Initial commit"
+
+# Create and switch to feature branch
+git branch feature
+git checkout feature
+
+# Modify file on feature branch
+echo "line2-feature" >> file.txt
+git add .
+git commit -m "feature: add line2"
+\end{lstlisting}
+
+\begin{resultbox}
+成功创建 \texttt{feature} 分支并切换到该分支，提交了独立修改。
+\end{resultbox}
+
+\begin{notebox}
+\texttt{git branch <name>} 只创建分支不切换；\texttt{git checkout <name>} 切换到指定分支。也可以用 \texttt{git checkout -b <name>} 一步完成创建+切换。
+\end{notebox}
+
+%-------------------------------------------------------
+\subsubsection{实例 6：git merge --- 合并与冲突解决}
+
+\textbf{目标：}学会合并分支并手动解决合并冲突。
+
+\begin{lstlisting}[style=shellstyle, caption={Merge and resolve conflicts}]
+# Switch to master and modify same location
+git checkout master
+echo "line2-master" >> file.txt
+git add .
+git commit -m "master: add line2"
+
+# Try merge feature -> CONFLICT!
+git merge feature
+# Output: CONFLICT (content): Merge conflict in file.txt
+
+# View conflict
+cat file.txt
+# Shows: <<<<<<< HEAD / ======= / >>>>>>> feature
+
+# Resolve: keep both line2 entries
+# Final file.txt content:
+# line1
+# line2-master
+# line2-feature
+
+git add .
+git commit -m "Resolved: keep both line2"
+\end{lstlisting}
+
+\begin{resultbox}
+冲突成功解决！最终文件保留了两个分支各自添加的 \texttt{line2} 内容。
+\end{resultbox}
+
+\begin{tipbox}
+冲突标记的含义：\texttt{<<<<<<< HEAD} 到 \texttt{=======} 是当前分支的内容，\texttt{=======} 到 \texttt{>>>>>>> feature} 是待合并分支的内容。解决冲突就是手动决定保留哪些内容。
+\end{tipbox}
+
+%-------------------------------------------------------
+\subsubsection{实例 7：git log --- 查看提交历史}
+
+\textbf{目标：}使用 \texttt{git log} 查看提交历史，理解项目的提交脉络。
+
+\begin{lstlisting}[style=shellstyle, caption={View commit history}]
+# Full commit history
+git log
+
+# Concise one-line mode
+git log --oneline
+
+# Graphical branch view
+git log --oneline --graph
+\end{lstlisting}
+
+\begin{resultbox}
+输出结果清晰展示了分支与合并的历史：
+\begin{verbatim}
+*   abc1234 (HEAD -> master) Resolved: keep both line2
+|\
+| * def5678 (feature) feature: add line2
+* | ghi9012 master: add line2
+|/
+* jkl3456 Initial commit
+\end{verbatim}
+\end{resultbox}
+
+\begin{notebox}
+\texttt{--graph} 参数用 ASCII 字符画出分支树，非常直观。\texttt{--oneline} 只显示前 7 位 commit hash 和标题，简洁高效。
+\end{notebox}
+
+\newpage
+%=======================================================
+\subsection{LaTeX 文档编辑（实例 8--10）}
+%=======================================================
+
+以下三个实例均在 \textbf{Overleaf} 在线编辑器中完成，使用 \texttt{XeLaTeX} 引擎编译以支持中文。每个实例的源码已单独提交至 GitHub 仓库。
+
+%-------------------------------------------------------
+\subsubsection{实例 8：基本文档结构}
+
+\textbf{目标：}掌握 LaTeX 文档的基本结构，包括导言区、正文区、标题、章节等。
+
+\begin{lstlisting}[style=latexstyle, caption={Basic document structure}]
+\documentclass[12pt,a4paper]{article}
+\usepackage[UTF8]{ctex}
+
+\title{My First LaTeX Document}
+\author{Shuai Wang}
+\date{August 26, 2026}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+This is a basic LaTeX document example.
+
+\section{Document Structure}
+LaTeX documents consist of preamble and body:
+\begin{itemize}
+    \item Preamble: document class, packages
+    \item Body: all sections and content
+\end{itemize}
+
+\subsection{Common Commands}
+\begin{enumerate}
+    \item \textbackslash section\{\} -- Section heading
+    \item \textbackslash textbf\{\} -- Bold text
+    \item \textbackslash textit\{\} -- Italic text
+\end{enumerate}
+
+\end{document}
+\end{lstlisting}
+
+\begin{resultbox}
+编译成功！生成了包含标题页、章节编号、有序/无序列表的完整 PDF 文档。
+\end{resultbox}
+
+%-------------------------------------------------------
+\subsubsection{实例 9：数学公式}
+
+\textbf{目标：}学会在 LaTeX 中输入行内公式、独立公式、多行对齐公式、矩阵等。
+
+\begin{lstlisting}[style=latexstyle, caption={Math formula examples}]
+\documentclass[12pt,a4paper]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+
+\begin{document}
+
+% Inline formula
+Mass-energy equivalence: $E = mc^2$
+
+% Display formula
+$$\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}$$
+
+% Aligned equations
+\begin{align}
+    (a+b)^2 &= a^2 + 2ab + b^2 \\
+    (a-b)^2 &= a^2 - 2ab + b^2
+\end{align}
+
+% Matrix
+$$A = \begin{pmatrix}
+    1 & 2 & 3 \\
+    4 & 5 & 6 \\
+    7 & 8 & 9
+\end{pmatrix}$$
+
+\end{document}
+\end{lstlisting}
+
+\begin{resultbox}
+编译成功！数学公式排版精美，包括行内公式、高斯积分、完全平方公式组、$3\times3$ 矩阵等均正确渲染。
+\end{resultbox}
+
+\begin{tipbox}
+\texttt{amsmath} 宏包是 LaTeX 数学排版的利器，提供 \texttt{align}、\texttt{gather}、\texttt{cases} 等强大环境。写数学论文必备！
+\end{tipbox}
+
+%-------------------------------------------------------
+\subsubsection{实例 10：表格}
+
+\textbf{目标：}学会使用 \texttt{tabular} 环境和 \texttt{booktabs} 宏包制作专业表格。
+
+\begin{lstlisting}[style=latexstyle, caption={Table examples}]
+\documentclass[12pt,a4paper]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{booktabs}
+
+\begin{document}
+
+% Basic table with borders
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|r|}
+\hline
+Name & Age & Score \\
+\hline
+Alice & 18 & 92 \\
+Bob   & 19 & 85 \\
+\hline
+\end{tabular}
+\caption{Student Score Table}
+\end{table}
+
+% Three-line table (academic style)
+\begin{table}[h]
+\centering
+\begin{tabular}{lcr}
+\toprule
+Course & Credits & Score \\
+\midrule
+Calculus & 5 & 92 \\
+English  & 4 & 85 \\
+\bottomrule
+\end{tabular}
+\caption{Course Score Table}
+\end{table}
+
+\end{document}
+\end{lstlisting}
+
+\begin{resultbox}
+编译成功！生成了两种风格的表格：带边框的基础表格和学术论文常用的三线表（\texttt{booktabs} 风格）。
+\end{resultbox}
+
+\begin{notebox}
+\texttt{booktabs} 宏包提供的 \texttt{\textbackslash toprule}、\texttt{\textbackslash midrule}、\texttt{\textbackslash bottomrule} 比普通的 \texttt{\textbackslash hline} 更美观，是学术论文的推荐做法。
+\end{notebox}
+
+\newpage
+%-------------------------------------------------------
+\section{GitHub 仓库与提交记录}
+%-------------------------------------------------------
+
+\subsection{仓库信息}
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{>{\bfseries}l X}
+\toprule
+\textbf{项目} & \textbf{内容} \\
+\midrule
+GitHub 用户名 & wangshuai0606 \\
+仓库名称 & hw \\
+仓库地址 & \href{https://github.com/wangshuai0606/hw}{https://github.com/wangshuai0606/hw} \\
+可见性 & Public \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Commit 记录汇总}
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{cl l X}
+\toprule
+\textbf{序号} & \textbf{Commit} & \textbf{时间} & \textbf{说明} \\
+\midrule
+1 & 3cb0316 & 2026-08-26 & 实例1-4: Shell 基础 (mkdir, find, grep, pipe) \\
+2 & c2aa75a & 2026-08-26 & 实例5-6: Git 分支与合并冲突练习 \\
+3 & b43564a & 2026-08-26 & 实例8: LaTeX 基本文档结构 \\
+4 & 64f6f14 & 2026-08-26 & 实例9: 数学公式 \\
+5 & dd12680 & 2026-08-26 & 实例10: 表格 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{notebox}
+所有代码均为单独 commit 提交，符合老师"禁止单次全量提交"的要求。完整的 commit 记录截图见 GitHub 仓库的 Commits 页面。
+\end{notebox}
+
+\subsection{仓库截图}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\textwidth]{screenshot_repo_home}
+\caption{GitHub 仓库首页}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\textwidth]{screenshot_commits}
+\caption{Commits 提交记录}
+\end{figure}
+
+\newpage
+%-------------------------------------------------------
+\section{实验总结与心得}
+%-------------------------------------------------------
+
+\subsection{知识点总结}
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{主题} & \textbf{核心命令/概念} & \textbf{收获} \\
+\midrule
+Shell 基础 & mkdir, find, chmod, cp & 文件操作与权限管理是系统开发的基石 \\
+Shell 管道 & awk, sort, head, pipe & 管道组合 + awk 处理结构化数据威力巨大 \\
+Git & branch, merge, conflict & 分支管理让协作开发井然有序，冲突不可怕 \\
+LaTeX & equation, tabular, label/ref & 专业排版的学术利器，公式和表格特别强大 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{遇到的问题与解决方案}
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{问题：} 在 Windows CMD 中运行 Linux 命令（如 \texttt{rm -rf}、\texttt{cd \textasciitilde/hw}）报错。\\
+    \textbf{解决：} Windows CMD 不支持 Linux 语法，需使用 MSYS2 (MINGW64) 终端，或使用对应的 Windows 命令。
+
+    \item \textbf{问题：} Overleaf 使用 pdfLaTeX 编译中文文档报错（CTeX fontset `fandol' is unavailable）。\\
+    \textbf{解决：} 将编译器切换为 XeLaTeX，完美支持中文。
+
+    \item \textbf{问题：} Git 合并分支时出现冲突，不知道如何处理。\\
+    \textbf{解决：} 通过 \texttt{cat file.txt} 查看冲突标记，手动编辑保留所需内容，然后 \texttt{git add} + \texttt{git commit} 完成解决。
+
+    \item \textbf{问题：} \texttt{awk} 脚本中处理 CSV 文件时，标题行也被当作数据处理。\\
+    \textbf{解决：} 使用 \texttt{NR > 1} 条件跳过第一行（标题行），只处理数据行。
+
+    \item \textbf{问题：} LaTeX 交叉引用编译后显示 "??" 而非正确编号。\\
+    \textbf{解决：} 需要编译两次——第一次生成 \texttt{.aux} 文件记录标签，第二次才能正确引用。
+\end{enumerate}
+
+\subsection{心得体会}
+
+通过本周的实验，我对系统开发工具链有了全新的认识：
+
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Shell 是程序员的"手"}：以前总觉得图形界面更方便，但学会命令行后发现，批量操作、自动化脚本都离不开 Shell。\texttt{find + xargs} 的组合可以完成复杂的文件批量处理，\texttt{awk} 更是文本分析的神器。管道的设计思想——每个工具做一件事并组合使用——非常优雅。
+
+    \item \textbf{Git 是程序的"记忆"}：版本控制让每次修改都有迹可循，分支机制让多人协作互不干扰。冲突虽然看起来可怕，但理解三路合并的原理后，解决冲突就变成了简单的文本编辑工作。
+
+    \item \textbf{LaTeX 是程序的"脸面"}：作为理工科学生，以后写论文、报告都需要排版。LaTeX 的学习曲线虽然陡峭，但一旦上手，排版效果远超 Word，尤其是数学公式的渲染堪称完美。交叉引用的自动编号功能更是让长文档维护变得轻松。
+\end{itemize}
+
+\subsection{后续学习计划}
+
+\begin{enumerate}[leftmargin=2em]
+    \item 深入学习 Shell 脚本编程，包括变量、条件判断（\texttt{if/else}）、循环（\texttt{for/while}）、函数等。
+    \item 学习 Git 远程协作：\texttt{push}、\texttt{pull}、\texttt{fetch}、Pull Request 工作流。
+    \item 在 Overleaf 上尝试更复杂的 LaTeX 排版：bibliography 参考文献管理、图片插入、多文件项目组织。
+\end{enumerate}
+
+\vspace{1cm}
+\begin{center}
+\color{gray}\rule{0.6\textwidth}{0.5pt}\\[0.3cm]
+{\small --- 第 1 周实验报告 · 完 ---}
+\end{center}
+
+\end{document}
