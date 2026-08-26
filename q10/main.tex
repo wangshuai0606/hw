@@ -1,0 +1,59 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{booktabs}
+
+\title{系统开发工具基础 -- 实例10：表格}
+\author{王帅}
+\date{2026年8月26日}
+
+\begin{document}
+\maketitle
+
+\section{基本表格}
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|r|}
+\hline
+姓名 & 年龄 & 成绩 \\
+\hline
+张三 & 18 & 92 \\
+李四 & 19 & 85 \\
+王五 & 20 & 78 \\
+\hline
+\end{tabular}
+\caption{学生成绩表}
+\end{table}
+
+\section{三线表（推荐学术论文使用）}
+\begin{table}[h]
+\centering
+\begin{tabular}{lcr}
+\toprule
+课程名称 & 学分 & 成绩 \\
+\midrule
+高等数学 & 5 & 92 \\
+大学英语 & 4 & 85 \\
+C++程序设计 & 3 & 78 \\
+线性代数 & 4 & 88 \\
+\bottomrule
+\end{tabular}
+\caption{课程成绩表}
+\end{table}
+
+\section{复杂表格}
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{项目} & \multicolumn{2}{c|}{\textbf{统计信息}} & \textbf{备注} \\
+\cline{2-3}
+ & 数量 & 占比 & \\
+\hline
+通过 & 30 & 75\% & 优秀 \\
+未通过 & 10 & 25\% & 需补考 \\
+\hline
+\end{tabular}
+\caption{考试通过率统计}
+\end{table}
+
+\end{document}
