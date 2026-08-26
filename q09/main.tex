@@ -1,0 +1,47 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath}
+
+\title{系统开发工具基础 -- 实例9}
+\author{王帅}
+\date{2026年8月26日}
+
+\begin{document}
+\maketitle
+
+\section{行内公式}
+这是一个行内公式：$E = mc^2$
+
+\section{独立公式}
+下面是独立显示的公式：
+$$
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+$$
+
+\section{多行公式}
+使用 aligned 环境对齐多行公式：
+\begin{align}
+    (a+b)^2 &= a^2 + 2ab + b^2 \\
+    (a-b)^2 &= a^2 - 2ab + b^2 \\
+    a^2 - b^2 &= (a+b)(a-b)
+\end{align}
+
+\section{矩阵}
+矩阵示例：
+$$
+A = \begin{pmatrix}
+    1 & 2 & 3 \\
+    4 & 5 & 6 \\
+    7 & 8 & 9
+\end{pmatrix}
+$$
+
+\section{常用数学符号}
+\begin{itemize}
+    \item $\sum_{i=1}^{n} i$ -- 求和
+    \item $\prod_{i=1}^{n} i$ -- 连乘
+    \item $\alpha, \beta, \gamma, \delta$ -- 希腊字母
+    \item $\leq, \geq, \neq, \approx$ -- 关系符号
+\end{itemize}
+
+\end{document}
